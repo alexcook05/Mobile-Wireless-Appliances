@@ -14,7 +14,17 @@ function BookmarksScreen() {
     return bookmarkedArticlesCtx.ids.includes(articleItem.id);
   });
 
-  return <List items={bookmarkedArticles} />;
+  // If there are no bookmarked articles
+  if (bookmarkedArticles.length === 0) {
+    return (
+      // Display no saved articles message
+      <View style={styles.rootContainer}>
+        <Text style={styles.text}>You have no saved articles yet!</Text>
+      </View>
+    );
+  } else { // Else return the bookmarked articles
+    return <List items={bookmarkedArticles} />;
+  }
 }
 
 export default BookmarksScreen;
@@ -28,7 +38,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: "playfairBold",
     color: Colors.primary300,
   },
 });
