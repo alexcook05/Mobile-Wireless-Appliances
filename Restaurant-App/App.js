@@ -15,7 +15,7 @@ import Colors from "./constants/Colors";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useFonts } from "expo-font";
-
+import CartContextProvider from "./store/context/cart-context";
 
 // Create stack and bottomtabs navigator
 const Stack = createNativeStackNavigator();
@@ -27,9 +27,13 @@ function MenuStackNavigator() {
     // Create navigator, stylize header
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: Colors.accent800 },
-        headerTintColor: "black",
-        headerTitleStyle: { fontWeight: "bold", fontSize: 15 },
+        headerStyle: { backgroundColor: Colors.primary800 },
+        headerTintColor: Colors.primary200,
+        headerTitleStyle: {
+          fontFamily: "matchaSalt",
+          fontSize: 50,
+          color: Colors.primary200,
+        },
         headerTitleAlign: "center",
       }}
     >
@@ -37,7 +41,7 @@ function MenuStackNavigator() {
       <Stack.Screen
         name="Categories"
         component={FoodCategoriesScreen}
-        options={{ title: "Restaurant Name" }}
+        options={{ title: "The Night Owl" }}
       />
       {/* Create Food Items screen within stack */}
       <Stack.Screen
@@ -63,15 +67,15 @@ function TabsNavigator() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: true,
-        tabBarActiveBackgroundColor: Colors.primary800,
-        tabBarActiveTintColor: Colors.accent500,
-        tabBarInactiveBackgroundColor: Colors.primary500,
-        tabBarInactiveTintColor: Colors.primary300,
+        tabBarActiveBackgroundColor: Colors.accent200,
+        tabBarActiveTintColor: Colors.primary800,
+        tabBarInactiveBackgroundColor: Colors.primary800,
+        tabBarInactiveTintColor: Colors.primary200,
         tabBarLabelStyle: {
           fontSize: 12,
         },
         tabBarStyle: {
-          backgroundColor: Colors.primary500,
+          backgroundColor: Colors.primary800,
         },
       }}
     >
@@ -91,7 +95,17 @@ function TabsNavigator() {
         name="Order"
         component={OrderScreen}
         options={{
-          // Create the icon for order screen
+          // Display and stylize header
+          headerShown: true,
+          title: "Your Order",
+          headerStyle: { backgroundColor: Colors.primary800 },
+          headerTintColor: Colors.primary200,
+          headerTitleStyle: {
+            fontFamily: "matchaSalt",
+            fontSize: 50,
+            color: Colors.primary200,
+          },
+          headerTitleAlign: "center",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="receipt" size={size} color={color} />
           ),
@@ -105,6 +119,8 @@ export default function App() {
   const [fontsLoaded, fontsError] = useFonts({
     // Import fonts
     matchaSalt: require("./assets/fonts/Matcha Salt.otf"),
+    dunkin: require("./assets/fonts/Dunkin.otf"),
+    skynight: require("./assets/fonts/Skynight.otf"),
   });
 
   // Wait for fonts to load/error then hide splashscreen
@@ -117,33 +133,47 @@ export default function App() {
   // Return nothing if no fontsLoaded or fontsError
   if (!fontsLoaded && !fontsError) {
     return null;
-  } else { // Else display the screens
+  } else {
+    // Else display the screens
     return (
       <>
         <StatusBar style="dark" />
         {/* Create navigation container */}
-        <NavigationContainer>
-          <Stack.Navigator>
-            {/* Display the starting info screen */}
-            <Stack.Screen
-              name="RestaurantInfo"
-              component={RestaurantInfoScreen}
-              options={{ headerShown: false }}
-            />
-            {/* Display the bottom tabs screen | starting on food categories screen */}
-            <Stack.Screen
-              name="Restaurant"
-              component={TabsNavigator}
-              options={{ headerShown: false }}
-            />
-            {/* Stack checkout screen on top of everything else */}
-            <Stack.Screen
-              name="Checkout"
-              component={CheckoutScreen}
-              options={{ headerShown: true }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <CartContextProvider>
+          <NavigationContainer>
+            <Stack.Navigator>
+              {/* Display the starting info screen */}
+              <Stack.Screen
+                name="RestaurantInfo"
+                component={RestaurantInfoScreen}
+                options={{ headerShown: false }}
+              />
+              {/* Display the bottom tabs screen | starting on food categories screen */}
+              <Stack.Screen
+                name="Restaurant"
+                component={TabsNavigator}
+                options={{ headerShown: false }}
+              />
+              {/* Stack checkout screen on top of everything else */}
+              <Stack.Screen
+                name="Checkout"
+                component={CheckoutScreen}
+                options={{
+                  // Display and stylize header
+                  headerShown: true,
+                  headerStyle: { backgroundColor: Colors.primary800 },
+                  headerTintColor: Colors.primary200,
+                  headerTitleStyle: {
+                    fontFamily: "matchaSalt",
+                    fontSize: 50,
+                    color: Colors.primary200,
+                  },
+                  headerTitleAlign: "center",
+                }}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </CartContextProvider>
       </>
     );
   }

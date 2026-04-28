@@ -1,13 +1,18 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import Button from "../components/Button";
+import { LinearGradient } from "expo-linear-gradient";
+import Colors from "../constants/Colors";
 
 function RestaurantInfoScreen(props) {
   return (
     // Create restaurant info screen
-    <View style={styles.rootContainer}>
+    <LinearGradient
+      colors={[Colors.accent800, Colors.primary800]}
+      style={styles.rootContainer}
+    >
       {/* Restaurant name */}
       <View style={styles.nameContainer}>
-        <Text style={styles.restaurantName}>Restaurant Name</Text>
+        <Text style={styles.restaurantName}>The Night Owl </Text>
       </View>
       {/* Image of restuarant */}
       <View style={styles.imageContainer}>
@@ -34,7 +39,7 @@ function RestaurantInfoScreen(props) {
           View Menu
         </Button>
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 
@@ -70,19 +75,24 @@ const styles = StyleSheet.create({
   restaurantName: {
     fontSize: 50,
     textAlign: "center",
-    color: "#a00000",
+    color: Colors.accent200,
     fontFamily: "matchaSalt",
+    textShadowColor: Colors.primary200,
+    textShadowRadius: 30,
   },
   infoText: {
     fontSize: 35,
     textAlign: "center",
-    color: "#990000",
+    color: Colors.accent200,
     marginBottom: 5,
     fontFamily: "matchaSalt",
+    textShadowColor: Colors.primary200,
+    textShadowRadius: 30,
   },
   buttonContainer: {
     flex: 1,
     width: 200,
     alignSelf: "center",
+
   },
 });

@@ -1,5 +1,8 @@
 import { View, StyleSheet, FlatList } from "react-native";
 import FoodItem from "./FoodItem";
+import { LinearGradient } from "expo-linear-gradient";
+import Colors from "../../constants/Colors";
+
 
 function FoodList(props) {
   // Function to render news item
@@ -20,7 +23,10 @@ function FoodList(props) {
   }
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={[ Colors.accent200, Colors.accent200, Colors.accent200, Colors.primary800]}
+      style={styles.container}
+    >
       <FlatList
       // Display food items in flat list
         data={props.items}
@@ -29,7 +35,7 @@ function FoodList(props) {
         renderItem={renderFoodItem}
         showsVerticalScrollIndicator={false}
       />
-    </View>
+    </LinearGradient>
   );
 }
 

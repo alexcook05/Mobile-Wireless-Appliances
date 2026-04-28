@@ -1,5 +1,7 @@
 import { View, StyleSheet, FlatList } from "react-native";
 import CategoryItem from "./CategoryItem";
+import { LinearGradient } from "expo-linear-gradient";
+import Colors from "../../constants/Colors";
 
 function CategoryList(props) {
   // Function to render category
@@ -16,16 +18,27 @@ function CategoryList(props) {
   }
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={[
+        Colors.accent800,
+        Colors.accent800,
+        Colors.accent800,
+        Colors.accent800,
+        Colors.accent800,
+        Colors.accent800,
+        Colors.primary800,
+      ]}
+      style={styles.container}
+    >
       <FlatList
-      // Display categories in flat list
+        // Display categories in flat list
         data={props.items}
         keyExtractor={(item) => item.id}
         // render category items
         renderItem={renderCategoryItem}
         showsVerticalScrollIndicator={false}
       />
-    </View>
+    </LinearGradient>
   );
 }
 
@@ -34,7 +47,6 @@ export default CategoryList;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black"
   },
   backgroundImage: {
     opacity: 0.1,

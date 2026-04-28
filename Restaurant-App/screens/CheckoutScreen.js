@@ -1,27 +1,50 @@
-import { View, Text, StyleSheet, TextInput, Pressable, Switch, Alert } from "react-native";
-import { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Pressable,
+  Switch,
+  Alert,
+} from "react-native";
+import { useContext, useState } from "react";
 import Colors from "../constants/Colors";
+import { useNavigation } from "@react-navigation/native";
+import { CartContext } from "../store/context/cart-context";
 
 function CheckoutScreen() {
-    // Setter for food delivery
+  // Setter for food delivery
   const [isDelivery, setIsDelivery] = useState(false);
+
+  // Set navigation variable
+  const navigation = useNavigation();
+
+  // import ordered items
+  const orderedItemsCtx = useContext(CartContext);
 
   // Function to display alert when place order button is pressed
   function placeOrderHandler() {
-  Alert.alert(
-    // Text display within alert
-    "Order Placed",
-    "Your order has been successfully placed",
-    [
-        // Text within the close button
-      { text: "OK" }
-    ]
-  );
-}
+    // Create alert hook
+    Alert.alert(
+      // Text displayed within alert
+      "Order Placed",
+      "Your order has been successfully placed",
+      [
+        {
+           // Text within the close button
+          text: "OK",
+          // When ok button is pressed, navigate back to menu screen and clear the cart
+          onPress: () => {
+            (navigation.navigate("Restaurant"), orderedItemsCtx.clearCart());
+          },
+        },
+      ],
+    );
+  }
 
   return (
     <View style={styles.rootContainer}>
-        {/* container containing entire form */}
+      {/* container containing entire form */}
       <View style={styles.formContainer}>
         {/* Customer name input */}
         <TextInput
@@ -43,7 +66,7 @@ function CheckoutScreen() {
 
         {/* If delivery is set to true */}
         {isDelivery && (
-            // Display customer address input
+          // Display customer address input
           <TextInput
             style={styles.input}
             // placeholder text/color
@@ -59,7 +82,7 @@ function CheckoutScreen() {
           </View>
           <View style={styles.switchBox}>
             <Switch
-            // Set value of switch to isDelivery(false)
+              // Set value of switch to isDelivery(false)
               value={isDelivery}
               // When switch is changed, change isDelivery to true/false
               onValueChange={setIsDelivery}
@@ -68,7 +91,13 @@ function CheckoutScreen() {
         </View>
 
         {/* Place order button | When button is pressed, call placeOrderHanlder to display alert*/}
-        <Pressable style={styles.orderButton} onPress={placeOrderHandler}>
+        <Pressable
+          style={({ pressed }) => [
+            styles.orderButton,
+            pressed && styles.pressed,
+          ]}
+          onPress={placeOrderHandler}
+        >
           <Text style={styles.orderButtonText}>Place Order</Text>
         </Pressable>
       </View>
@@ -81,8 +110,18 @@ export default CheckoutScreen;
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
+    backgroundColor: Colors.accent800,
     justifyContent: "center",
     paddingHorizontal: 20,
+  },
+  heading: {
+    fontFamily: "skynight",
+    fontSize: 45,
+    color: Colors.primary200,
+    textShadowColor: Colors.primary200,
+    textShadowRadius: 15,
+    textAlign: "center",
+    marginBottom: 30,
   },
   formContainer: {
     width: "100%",
@@ -90,52 +129,50 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "100%",
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: Colors.primary300,
     borderRadius: 15,
     paddingVertical: 15,
     paddingHorizontal: 15,
     marginBottom: 15,
-    fontSize: 20,
-    backgroundColor: "#fff",
+    fontSize: 16,
+    fontFamily: "dunkin",
+    color: Colors.accent200,
+    backgroundColor: Colors.primary800,
   },
   deliveryRow: {
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 10,
-  },
-  deliveryTextBox: {
-    width: "60%",
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: Colors.primary800,
+    borderRadius: 15,
+    paddingVertical: 14,
+    paddingHorizontal: 18,
+    marginBottom: 20,
   },
   deliveryText: {
-    fontSize: 15,
-    textAlign: "center",
-  },
-  switchBox: {
-    paddingVertical: 10,
-    marginRight: 10,
-    alignItems: "center",
-    justifyContent: "center",
+    fontFamily: "dunkin",
+    fontSize: 16,
+    color: Colors.accent200,
   },
   orderButton: {
     marginTop: 10,
-    width: "75%",
-    backgroundColor: Colors.primary300,
-    borderRadius: 25,
-    paddingVertical: 14,
+    width: "80%",
+    backgroundColor: Colors.primary800,
+    borderRadius: 30,
+    paddingVertical: 15,
     alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 4,
   },
   orderButtonText: {
-    color: "#fff",
-    fontSize: 20,
-    fontWeight: "bold",
+    color: Colors.primary200,
+    fontSize: 25,
+    fontFamily: "skynight",
+    textShadowColor: Colors.primary200,
+    textShadowRadius: 15,
   },
+  pressed: {
+    color: Colors.accent500,
+    opacity: 0.8
+  }
 });

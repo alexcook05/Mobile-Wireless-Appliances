@@ -15,6 +15,7 @@ function ArticleDetailsScreen(props) {
   // Find article matching selected article's id
   const selectedArticle = ARTICLES.find((article) => article.id === articleId);
 
+
   // Check if current bookmarks includes current article the page is on
   const articleIsBookmarked = bookmarkedArticlesCtx.ids.includes(articleId)
 

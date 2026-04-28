@@ -7,6 +7,8 @@ function FoodCategoriesScreen(props) {
   // Store categories from dummy data
   const categories = CATEGORIES;
 
+  
+
   return (
     <View style={styles.rootContainer}>
       {/* Display all categories in list */}
