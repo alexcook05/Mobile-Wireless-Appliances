@@ -1,4 +1,3 @@
 # Mobile-Wireless-Appliances
 
-IST 236 Spring 2026
-
+All Projects Completed for: IST 236 Spring 2026
